@@ -1,16 +1,20 @@
-# 29-DEC-2025
+# 08-JAN-2026
 [project]
 site_name = "Zensical Sample Site"
 site_description = "A new project generated from the default template project."
 site_author = "Manfred Rosenboom>"
 site_url = "https://maroph.github.io/zensical_sample/"
 
+docs_dir = "docs"
+site_dir = "site"
+use_directory_urls = false
+
 repo_url = "https://github.com/maroph/zensical_sample"
 repo_name = "maroph/zensical_sample"
 edit_uri = "edit/main/docs/"
 
 copyright = """
-Copyright &copy 2020-2025 <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> by <a href="https://maroph.github.io/">Manfred Rosenboom</a>
+Copyright &copy 2020-2026 <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> by <a href="https://maroph.github.io/">Manfred Rosenboom</a>
 """
 
 nav = [
@@ -21,6 +25,7 @@ nav = [
     { "Markdown in 5min" = "zensical/markdown.md" }
   ]},
   { "Info" = [
+    { "About" = "info/about.md" },
     { "License" = "info/license.md" }
   ]}
 ]
@@ -33,7 +38,7 @@ nav = [
 #
 # Read more: https://zensical.org/docs/customization/#additional-css
 #
-#extra_css = ["stylesheets/extra.css"]
+# extra_css = ["stylesheets/extra.css"]
 
 # With the `extra_javascript` option you can add your own JavaScript to your
 # project to customize the behavior according to your needs.
@@ -65,6 +70,8 @@ favicon = "assets/zensical_32x32.png"
 
 # https://zensical.org/docs/setup/language/
 language = "en"
+
+direction = "ltr"
 
 # Zensical provides a number of feature toggles that change the behavior
 # of the documentation site.
@@ -119,12 +126,12 @@ features = [
     # With this feature enabled, Zensical will automatically hide parts
     # of the header when the user scrolls past a certain point.
     # https://zensical.org/docs/setup/header/#automatic-hiding
-    # "header.autohide",
+    "header.autohide",
 
     # Turn on this feature to expand all collapsible sections in the
     # navigation sidebar by default.
     # https://zensical.org/docs/setup/navigation/#navigation-expansion
-    # "navigation.expand",
+    "navigation.expand",
 
     # This feature turns on navigation elements in the footer that allow the
     # user to navigate to a next or previous page.
@@ -160,22 +167,22 @@ features = [
     # When pruning is enabled, only the visible navigation items are included
     # in the rendered HTML, reducing the size of the built site by 33% or more.
     # https://zensical.org/docs/setup/navigation/#navigation-pruning
-    #"navigation.prune",
+    "navigation.prune",
 
     # When sections are enabled, top-level sections are rendered as groups in
     # the sidebar for viewports above 1220px, but remain as-is on mobile.
     # https://zensical.org/docs/setup/navigation/#navigation-sections
-    # "navigation.sections",
+    "navigation.sections",
 
     # When tabs are enabled, top-level sections are rendered in a menu layer
     # below the header for viewports above 1220px, but remain as-is on mobile.
     # https://zensical.org/docs/setup/navigation/#navigation-tabs
-    #"navigation.tabs",
+    "navigation.tabs",
 
     # When sticky tabs are enabled, navigation tabs will lock below the header
     # and always remain visible when scrolling down.
     # https://zensical.org/docs/setup/navigation/#sticky-navigation-tabs
-    #"navigation.tabs.sticky",
+    "navigation.tabs.sticky",
 
     # A back-to-top button can be shown when the user, after scrolling down,
     # starts to scroll up again.
@@ -196,7 +203,7 @@ features = [
     # When anchor following for the table of contents is enabled, the sidebar
     # is automatically scrolled so that the active anchor is always visible.
     # https://zensical.org/docs/setup/navigation/#anchor-following
-    # "toc.follow",
+    "toc.follow",
 
     # When navigation integration for the table of contents is enabled, it is
     # always rendered as part of the navigation sidebar on the left.
@@ -229,6 +236,9 @@ toggle.name = "Switch to light mode"
 # of suitably licensed fonts. There are options for a normal text font and for
 # a monospaced font used in code blocks.
 # ----------------------------------------------------------------------------
+[project.theme.font]
+font = false
+
 #[project.theme.font]
 #text = "Inter"
 #code = "Jetbrains Mono"
@@ -247,10 +257,15 @@ toggle.name = "Switch to light mode"
 # Read more:
 # - https://zensical.org/docs/setup/logo-and-icons
 # - https://zensical.org/docs/authoring/icons-emojis/#search
+# - https://squidfunk.github.io/mkdocs-material/reference/icons-emojis/?h=icons
 # ----------------------------------------------------------------------------
 #[project.theme.icon]
-#logo = "lucide/smile"
-#repo = "lucide/smile"
+# logo = "lucide/smile"
+repo = "fontawesome/brands/github"
+edit = "material/pencil"
+view = "material/eye"
+previous = "fontawesome/solid/angle-left"
+next = "fontawesome/solid/angle-right"
 
 [project.markdown_extensions.attr_list]
 
@@ -265,11 +280,22 @@ pygments_lang_class = "true"
 
 [project.markdown_extensions.pymdownx.inlinehilite]
 
-[project.markdown_extensions.pymdownx.superfences]
-
 [project.markdown_extensions.pymdownx.snippets]
 
+[project.markdown_extensions.pymdownx.superfences]
+
 [project.markdown_extensions.tables]
+
+[project.plugins.offline]
+enabled = false
+
+# Missing Material build-in plugins:
+# plugins:
+#     - info:
+#           enabled: false
+#     - privacy:
+#           enabled: true
+#           cache: true
 
 # ----------------------------------------------------------------------------
 # The "extra" section contains miscellaneous settings.
@@ -278,6 +304,14 @@ pygments_lang_class = "true"
 icon = "fontawesome/solid/blog"
 link = "https://maroph.github.io/nosense/"
 name = "maroph.github.io/nosense"
+[[project.extra.social]]
+icon = "fontawesome/brands/bluesky"
+link = "https://bsky.app/profile/maroph.bsky.social"
+name = "@maroph.bsky.social"
+[[project.extra.social]]
+icon = "simple/codeberg"
+link = "https://codeberg.org/maroph"
+name = "codeberg.org/maroph"
 [[project.extra.social]]
 icon = "fontawesome/brands/codepen"
 link = "https://codepen.io/maroph/"

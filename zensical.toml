@@ -36,9 +36,11 @@ nav = [
 #
 # The path provided should be relative to the "docs_dir".
 #
-# Read more: https://zensical.org/docs/customization/#additional-css
+# Read more:
+# https://zensical.org/docs/customization/#additional-css
+# https://zensical.org/docs/setup/fonts/#customization
 #
-# extra_css = ["stylesheets/extra.css"]
+extra_css = ["assets/extra/css/extra.css"]
 
 # With the `extra_javascript` option you can add your own JavaScript to your
 # project to customize the behavior according to your needs.

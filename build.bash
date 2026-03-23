@@ -10,7 +10,7 @@
 #
 declare -r SCRIPT_NAME=$(basename $0)
 declare -r VERSION="0.1.0"
-declare -r VERSION_DATE="06-JAN-2026"
+declare -r VERSION_DATE="23-MAR-2026"
 declare -r VERSION_STRING="${SCRIPT_NAME}  ${VERSION}  (${VERSION_DATE})"
 #
 ###############################################################################
@@ -294,6 +294,18 @@ fi
 #
 if [ "$1" = "serve" ]
 then
+    # File Watcher
+    # see: https://github.com/zensical/zensical/releases/tag/v0.0.28
+    #
+    # You can now opt into using a polling-based file watcher, 
+    # which is particularly useful when running Docker on 
+    # Windows, where filesystem event limitations (e.g., inotify 
+    # constraints) can cause issues.
+    ##### export ZENSICAL_POLL_WATCHER=1
+    # The polling interval is configurable and defaults to 
+    # 500 milliseconds (aligned with MkDocs behavior)
+    ##### export ZENSICAL_POLL_INTERVAL=500
+    #
     if [ ${force} -eq 1 ]
     then
         echo "${SCRIPT_NAME}: zensical serve ${config} --no-strict ..."

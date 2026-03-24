@@ -1,4 +1,4 @@
-# 08-JAN-2026
+# 24-MAR-2026
 [project]
 site_name = "Zensical Sample Site"
 site_description = "A new project generated from the default template project."
@@ -269,23 +269,32 @@ view = "material/eye"
 previous = "fontawesome/solid/angle-left"
 next = "fontawesome/solid/angle-right"
 
+# Enabled Markdown Extensions
+
+# https://python-markdown.github.io/extensions/attr_list/
 [project.markdown_extensions.attr_list]
 
+# https://facelessuser.github.io/pymdown-extensions/extensions/emoji/
 [project.markdown_extensions.pymdownx.emoji]
 emoji_index = "zensical.extensions.emoji.twemoji" 
 emoji_generator = "zensical.extensions.emoji.to_svg"
 
+# https://facelessuser.github.io/pymdown-extensions/extensions/highlight/
 [project.markdown_extensions.pymdownx.highlight]
 anchor_linenums = "true"
 line_spans = "__span"
 pygments_lang_class = "true"
 
+# https://facelessuser.github.io/pymdown-extensions/extensions/inlinehilite/
 [project.markdown_extensions.pymdownx.inlinehilite]
 
+# https://facelessuser.github.io/pymdown-extensions/extensions/snippets/
 [project.markdown_extensions.pymdownx.snippets]
 
+# https://facelessuser.github.io/pymdown-extensions/extensions/superfences/
 [project.markdown_extensions.pymdownx.superfences]
 
+# https://python-markdown.github.io/extensions/tables/
 [project.markdown_extensions.tables]
 
 [project.plugins.offline]

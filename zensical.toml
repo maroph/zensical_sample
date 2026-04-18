@@ -1,4 +1,4 @@
-# 24-MAR-2026
+# 18-APR-2026
 [project]
 site_name = "Zensical Sample Site"
 site_description = "A new project generated from the default template project."
@@ -311,22 +311,22 @@ enabled = false
 # ----------------------------------------------------------------------------
 # The "extra" section contains miscellaneous settings.
 # ----------------------------------------------------------------------------
-[[project.extra.social]]
-icon = "fontawesome/solid/blog"
-link = "https://maroph.github.io/nosense/"
-name = "maroph.github.io/nosense"
-[[project.extra.social]]
-icon = "fontawesome/brands/bluesky"
-link = "https://bsky.app/profile/maroph.bsky.social"
-name = "@maroph.bsky.social"
-[[project.extra.social]]
-icon = "simple/codeberg"
-link = "https://codeberg.org/maroph"
-name = "codeberg.org/maroph"
-[[project.extra.social]]
-icon = "fontawesome/brands/codepen"
-link = "https://codepen.io/maroph/"
-name = "codepen.io/maroph"
+# [[project.extra.social]]
+# icon = "fontawesome/solid/blog"
+# link = "https://maroph.github.io/nosense/"
+# name = "maroph.github.io/nosense"
+# [[project.extra.social]]
+# icon = "fontawesome/brands/bluesky"
+# link = "https://bsky.app/profile/maroph.eurosky.social"
+# name = "@maroph.bsky.social"
+# [[project.extra.social]]
+# icon = "simple/codeberg"
+# link = "https://codeberg.org/maroph"
+# name = "codeberg.org/maroph"
+# [[project.extra.social]]
+# icon = "fontawesome/brands/codepen"
+# link = "https://codepen.io/maroph/"
+# name = "codepen.io/maroph"
 [[project.extra.social]]
 icon = "fontawesome/brands/github"
 link = "https://github.com/maroph"
@@ -335,4 +335,10 @@ name = "github.com/maroph"
 icon = "fontawesome/brands/mastodon"
 link = "https://mastodon.social/@maroph"
 name = "mastodon.social/@maroph"
+# [[project.extra.social]]
+# icon = "simple/homepage"
+# icon = "simple/googlehome"
+# icon = "fontawesome/solid/house"
+# link = "https://manfred.rosenboom.name"
+# name = "mastodon.social/@maroph"
 

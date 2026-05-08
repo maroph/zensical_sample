@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - 'docs/**'
+      - 'data/**'
       - './zensical.toml'
   workflow_dispatch:
 permissions:

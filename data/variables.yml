@@ -1,0 +1,4 @@
+# https://zensical.org/docs/setup/extensions/macros/
+# Variables are accessible as {{ variable }} in templates
+author : "Manfred Rosenboom"
+version : "1.0"

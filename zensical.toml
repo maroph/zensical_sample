@@ -1,5 +1,10 @@
-# 18-APR-2026
+# 05-MAY-2026
+# Zensical >= 0.0.40
 [project]
+validation = true
+# validation = false
+dev_addr = "localhost:8000"
+
 site_name = "Zensical Sample Site"
 site_description = "A new project generated from the default template project."
 site_author = "Manfred Rosenboom>"
@@ -14,7 +19,8 @@ repo_name = "maroph/zensical_sample"
 edit_uri = "edit/main/docs/"
 
 copyright = """
-Copyright &copy 2020-2026 <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> by <a href="https://maroph.github.io/">Manfred Rosenboom</a>
+Copyright &copy 2020-2026 <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> by <a href="https://maroph.github.io/">Manfred Rosenboom</a><br/>
+<a href="#__consent">Change cookie settings</a>
 """
 
 nav = [
@@ -22,7 +28,8 @@ nav = [
   { "Zensical" = [
     { "Config" = "zensical/config.md" },
     { "Get started" = "zensical/get_started.md" },
-    { "Markdown in 5min" = "zensical/markdown.md" }
+    { "Markdown in 5min" = "zensical/markdown.md" },
+    { "Variables" = "zensical/variables.md" }
   ]},
   { "Info" = [
     { "About" = "info/about.md" },
@@ -49,6 +56,17 @@ extra_css = ["assets/extra/css/extra.css"]
 #
 # Read more: https://zensical.org/docs/customization/#additional-javascript
 #extra_javascript = ["javascripts/extra.js"]
+
+# https://zensical.org/docs/setup/validation/
+# [project.validation]
+# unresolved_references = true
+# unresolved_footnotes = true
+# unused_definitions = true
+# unused_footnotes = true
+# shadowed_definitions = true
+# shadowed_footnotes = true
+# invalid_links = true
+# invalid_link_anchors = true
 
 # ----------------------------------------------------------------------------
 # Section for configuring theme options
@@ -222,15 +240,23 @@ features = [
 # Read more:
 # - https://zensical.org/docs/setup/colors/
 # ----------------------------------------------------------------------------
-[[project.theme.palette]]
-scheme = "default"
-toggle.icon = "lucide/sun"
-toggle.name = "Switch to dark mode"
 
-[[project.theme.palette]]
-scheme = "slate"
-toggle.icon = "lucide/moon"
-toggle.name = "Switch to light mode"
+palette = [
+  {
+    scheme = "default",
+    toggle = {
+      icon = "lucide/sun",
+      name = "Switch to dark mode"
+    }
+  },
+  {
+    scheme = "slate",
+    toggle = {
+      icon = "lucide/moon",
+      name = "Switch to light mode"
+    }
+  }
+]
 
 # ----------------------------------------------------------------------------
 # In the "font" subsection you can configure the fonts used. By default, fonts
@@ -297,6 +323,13 @@ pygments_lang_class = "true"
 # https://python-markdown.github.io/extensions/tables/
 [project.markdown_extensions.tables]
 
+# https://zensical.org/docs/setup/extensions/macros/
+[project.markdown_extensions.zensical.extensions.macros]
+# module_name = "data/variables"
+include_yaml = ["data/variables.yml"]
+on_undefined = "strict"
+on_error_fail = true
+
 [project.plugins.offline]
 enabled = false
 
@@ -327,18 +360,47 @@ enabled = false
 # icon = "fontawesome/brands/codepen"
 # link = "https://codepen.io/maroph/"
 # name = "codepen.io/maroph"
-[[project.extra.social]]
-icon = "fontawesome/brands/github"
-link = "https://github.com/maroph"
-name = "github.com/maroph"
-[[project.extra.social]]
-icon = "fontawesome/brands/mastodon"
-link = "https://mastodon.social/@maroph"
-name = "mastodon.social/@maroph"
+# [[project.extra.social]]
+# icon = "fontawesome/brands/github"
+# link = "https://github.com/maroph"
+# name = "github.com/maroph"
+# [[project.extra.social]]
+# icon = "fontawesome/brands/mastodon"
+# link = "https://mastodon.social/@maroph"
+# name = "mastodon.social/@maroph"
 # [[project.extra.social]]
 # icon = "simple/homepage"
 # icon = "simple/googlehome"
 # icon = "fontawesome/solid/house"
 # link = "https://manfred.rosenboom.name"
 # name = "mastodon.social/@maroph"
+
+[project.extra]
+social = [
+  {
+    icon = "fontawesome/brands/github",
+    link = "https://github.com/maroph",
+    name = "github.com/maroph"
+  },
+  {
+    icon = "fontawesome/brands/mastodon",
+    link = "https://mastodon.social/@maroph",
+    name = "mastodon.social/@maroph"
+  }
+]
+
+# https://zensical.org/docs/setup/data-privacy/#cookie-consent
+[project.extra.consent]
+title = "Cookie consent"
+description = """
+    We use cookies to recognize your repeated visits and preferences, as well
+    as to measure the effectiveness of our documentation and whether users
+    find what they're searching for. With your consent, you're helping us to
+    make our documentation better.
+"""
+actions = [
+    "accept",
+    "reject",
+    "manage" 
+]
 

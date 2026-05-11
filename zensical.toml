@@ -1,4 +1,4 @@
-# 05-MAY-2026
+# 11-MAY-2026
 # Zensical >= 0.0.40
 [project]
 validation = true
@@ -87,6 +87,7 @@ extra_css = ["assets/extra/css/extra.css"]
 #custom_dir = "overrides"
 
 favicon = "assets/zensical_32x32.png"
+logo = "assets/great_wave_off_kanagawa_100x100.png"
 
 # https://zensical.org/docs/setup/language/
 language = "en"

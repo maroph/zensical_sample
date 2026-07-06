@@ -1,4 +1,6 @@
 # Variables
+Supported with Zensical >= 0.0.40
+
 How to define own variables is described in the chapter 
 [Zensical Documentation: Macros](https://zensical.org/docs/setup/extensions/macros/#include_yaml-zensicaltoml).
 
@@ -8,6 +10,7 @@ _data/variables.yml_.
 
 * __Author__: {{ author }} 
 * __Version__: {{ version }} 
+* __Zensical__: {{ zensical_version }} 
 
 ## Built-in template variables
 * __Python__: {{ environment['python_version'] }} 

@@ -28,6 +28,12 @@ python -m pip install zensical
 python -m pip install ghp-import
 ```
 
+### Needed for the plugin Markdown Exec
+
+```
+python -m pip install markdown-exec
+```
+
 ## Create a new template project
 
 ```

@@ -10,7 +10,7 @@
 #
 declare -r SCRIPT_NAME=$(basename $0)
 declare -r VERSION="0.1.0"
-declare -r VERSION_DATE="01-MAY-2026"
+declare -r VERSION_DATE="06-JUL-2026"
 declare -r VERSION_STRING="${SCRIPT_NAME}  ${VERSION}  (${VERSION_DATE})"
 #
 ###############################################################################
@@ -103,8 +103,7 @@ do
             checkOnly=1
             ;;
         -f | --force)
-            # force=1
-            force=0
+            force=1
             ;;
         -n | --no-check)
             check=0
@@ -188,8 +187,12 @@ then
     python -m pip install --upgrade setuptools || exit 1
     echo "${SCRIPT_NAME}: python -m pip install --upgrade wheel"
     python -m pip install --upgrade wheel || exit 1
+#
     echo "${SCRIPT_NAME}: python -m pip install --upgrade zensical"
     python -m pip install --upgrade zensical || exit 1
+    echo "${SCRIPT_NAME}: python -m pip install --upgrade markdown-exec"
+    python -m pip install --upgrade markdown-exec || exit 1
+#
     echo "${SCRIPT_NAME}: python -m pip install --upgrade ghp-import"
     python -m pip install --upgrade ghp-import || exit 1
 #
@@ -246,6 +249,16 @@ then
     if [ $? -ne 0 ]
     then
         echo "${SCRIPT_NAME}: Python module ghp-import not available"
+        exit 1
+    fi
+    echo ${data} | awk '{ printf "%s %s\n%s %s\n", $1, $2, $3, $4;}'
+    echo "----------"
+    echo ""
+#
+    data=$(python -m pip show markdown-exec 2>/dev/null)
+    if [ $? -ne 0 ]
+    then
+        echo "${SCRIPT_NAME}: Python module markdown-exec not available"
         exit 1
     fi
     echo ${data} | awk '{ printf "%s %s\n%s %s\n", $1, $2, $3, $4;}'
@@ -318,6 +331,7 @@ then
     # 500 milliseconds (aligned with MkDocs behavior)
     ##### export ZENSICAL_POLL_INTERVAL=500
     #
+    rm -fr ./site
     echo "${SCRIPT_NAME}: zensical serve --dev-addr "localhost:${port}" ..."
     zensical serve --dev-addr "localhost:${port}" &
     # echo "#!/bin/bash" >./zensical.shut
@@ -329,6 +343,20 @@ then
     # echo "shutdown Zensical server: ./zensical.shut"
     # echo ""
     exit 0
+fi
+#
+###############################################################################
+#
+grep zensical_version data/variables.yml >/dev/null 2>/dev/null
+if [ $? -ne 0 ]
+then
+    echo "${SCRIPT_NAME}: ERROR: variable zensical_version missing in file data/variables.yml"
+else
+    grep $(zensical --version) data/variables.yml >/dev/null 2>/dev/null
+    if [ $? -ne 0 ]
+    then
+        echo "${SCRIPT_NAME}: WARN: update Zensical version in variable zensical_version in file data/variables.yml"
+    fi
 fi
 #
 ###############################################################################

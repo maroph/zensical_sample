@@ -1,8 +1,6 @@
-# 09-JUN-2026
-# Zensical >= 0.0.47
+# 23-SEP-2026
+# Zensical >= 0.0.64
 [project]
-validation = true
-# validation = false
 dev_addr = "localhost:8000"
 
 site_name = "Zensical Sample Site"
@@ -32,6 +30,7 @@ nav = [
     { "Markdown Exec" = "zensical/exec.md" },
     { "Variables" = "zensical/variables.md" }
   ]},
+  { "Blog" = "blog/index.md" },
   { "Info" = [
     { "About" = "info/about.md" },
     { "License" = "info/license.md" }
@@ -59,20 +58,29 @@ extra_css = ["assets/extra/css/extra.css"]
 #extra_javascript = ["javascripts/extra.js"]
 
 # https://zensical.org/docs/setup/validation/
-# [project.validation]
-# unresolved_references = true
-# unresolved_footnotes = true
-# unused_definitions = true
-# unused_footnotes = true
-# shadowed_definitions = true
-# shadowed_footnotes = true
-# invalid_links = true
-# invalid_link_anchors = true
+[project.validation]
+invalid_links = true
+invalid_link_anchors = true
+# unresolved_references: 0.0.56: deprecated, will be remove in a future release
+unresolved_references = false
+# unresolved_footnotes = false
+# unused_definitions = false
+# unused_footnotes = false
+# shadowed_definitions = false
+# shadowed_footnotes = false
 
 # ----------------------------------------------------------------------------
 # Section for configuring theme options
 # ----------------------------------------------------------------------------
 [project.theme]
+
+# ----------------------------------------------------------------------------
+# In the "font" subsection you can configure the fonts used. By default, fonts
+# are loaded from Google Fonts, giving you a wide range of choices from a set
+# of suitably licensed fonts. There are options for a normal text font and for
+# a monospaced font used in code blocks.
+# ----------------------------------------------------------------------------
+font = false
 
 # change this to "classic" to use the traditional Material for MkDocs look.
 #variant = "classic"
@@ -261,19 +269,6 @@ palette = [
 ]
 
 # ----------------------------------------------------------------------------
-# In the "font" subsection you can configure the fonts used. By default, fonts
-# are loaded from Google Fonts, giving you a wide range of choices from a set
-# of suitably licensed fonts. There are options for a normal text font and for
-# a monospaced font used in code blocks.
-# ----------------------------------------------------------------------------
-[project.theme.font]
-font = false
-
-#[project.theme.font]
-#text = "Inter"
-#code = "Jetbrains Mono"
-
-# ----------------------------------------------------------------------------
 # You can configure your own logo to be shown in the header using the "logo"
 # option in the "icons" subsection. The logo can be a path to a file in your
 # "docs_dir" or it can be a path to an icon.
@@ -289,7 +284,7 @@ font = false
 # - https://zensical.org/docs/authoring/icons-emojis/#search
 # - https://squidfunk.github.io/mkdocs-material/reference/icons-emojis/?h=icons
 # ----------------------------------------------------------------------------
-#[project.theme.icon]
+[project.theme.icon]
 # logo = "lucide/smile"
 repo = "fontawesome/brands/github"
 edit = "material/pencil"
@@ -325,25 +320,94 @@ pygments_lang_class = "true"
 # https://python-markdown.github.io/extensions/tables/
 [project.markdown_extensions.tables]
 
+# https://zensical.org/docs/setup/blog/
+# https://squidfunk.github.io/mkdocs-material/plugins/blog/#configuration
+
+[project.plugins.blog]
+enabled = true
+authors = true
+blog_dir = "blog"
+blog_toc = true
+draft = false
+draft_on_serve = false
+draft_if_future_date = false
+pagination = true
+pagination_per_page = 10
+pagination_url_format = "page/{page}"
+# https://babel.pocoo.org/en/latest/dates.html#pattern-syntax
+# German format
+# post_date_format = "dd. MMMM yyyy, H:mm"
+post_date_format = "MMMM dd, yyyy H:mm"
+pagination_if_single_page = false
+post_excerpt = "optional"
+post_excerpt_separator = "<!-- more -->"
+post_readtime = false
+archive = false
+# archive = true
+# # URL: site_url/blog/archive/2026.html
+# archive_name = "Archive"
+# archive_date_format = "yyyy"
+# archive_url_date_format = "yyyy"
+# archive_url_format = "archive/{date}"
+# archive_pagination = false
+# archive_toc = true
+# categories = false
+
 # https://zensical.org/docs/setup/extensions/macros/
-[project.markdown_extensions.zensical.extensions.macros]
-# module_name = "data/variables"
-include_yaml = ["data/variables.yml"]
+# [project.markdown_extensions.zensical.extensions.macros]
+# https://zensical.org/docs/compatibility/mkdocs/plugins/#macros
+[project.plugins.macros]
+# module_name = "docs/assets/variables"
+include_yaml = ["docs/assets/variables.yml"]
 on_undefined = "strict"
 on_error_fail = true
 
+# https://zensical.org/docs/compatibility/mkdocs/plugins/#markdown-exec
 [project.plugins.markdown-exec]
 
+# https://zensical.org/docs/compatibility/mkdocs/plugins/#minify
+[project.plugins.minify]
+minify_html = true
+
+# https://zensical.org/docs/compatibility/mkdocs/plugins/#offline
 [project.plugins.offline]
 enabled = false
 
-# Missing Material build-in plugins:
-# plugins:
-#     - info:
-#           enabled: false
-#     - privacy:
-#           enabled: true
-#           cache: true
+
+# Missing MkDocs/Material plugins:
+# # https://timvink.github.io/mkdocs-git-revision-date-localized-plugin/index.html
+# - git-revision-date-localized:
+#       enable_creation_date: false
+#       fallback_to_build_date: true
+#       timezone: Europe/Amsterdam
+#       type: iso_datetime
+# - info:
+#       enabled: false
+# - privacy:
+#       enabled: true
+#       cache: true
+# # https://guts.github.io/mkdocs-rss-plugin/configuration/
+# - rss:
+#       enabled: true
+#       match_path: "blog/posts/.*"
+#       abstract_chars_count: 160
+#       abstract_delimiter: "<!-- more -->"
+#       date_from_meta:
+#             as_creation: "date"
+#             as_update: "updated"
+#             datetime_format: "%Y-%m-%d %H:%M"
+#             default_time: "12:00"
+#             default_timezone: Europe/Berlin
+#       feed_description: My Zensical Sample Blog
+#       feed_title: Blog
+#       feed_ttl: 1440
+#       logo: https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Feed-icon.svg/128px-Feed-icon.svg.png
+#       image: https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Feed-icon.svg/128px-Feed-icon.svg.png
+#       json_feed_enabled: false
+#       length: 10
+#       use_git: false
+#       use_material_blog: true
+
 
 # ----------------------------------------------------------------------------
 # The "extra" section contains miscellaneous settings.

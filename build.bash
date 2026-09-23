@@ -7,10 +7,12 @@
 # This work is licensed under a CC-BY 4.0 License. #
 # https://creativecommons.org/licenses/by/4.0/     #
 ####################################################
+declare -r COPYRIGHT="Copyright (C) 2026 Manfred Rosenboom"
+declare -r LICENSE="License: CC-BY 4.0 <https://creativecommons.org/licenses/by/4.0/>"
 #
 declare -r SCRIPT_NAME=$(basename $0)
 declare -r VERSION="0.1.0"
-declare -r VERSION_DATE="06-JUL-2026"
+declare -r VERSION_DATE="23-SEP-2026"
 declare -r VERSION_STRING="${SCRIPT_NAME}  ${VERSION}  (${VERSION_DATE})"
 #
 ###############################################################################
@@ -59,7 +61,7 @@ port=8000
 print_usage() {
     cat - <<EOT
 
-Usage: ${SCRIPT_NAME} [option(s)] [venv|deploy|serve|shut]
+Usage: ${SCRIPT_NAME} [option(s)] [venv|build|deploy|serve|shut]
        Call zensical to build the site related files
        https://zensical.org/
 
@@ -69,10 +71,12 @@ Options:
   -c|--check-only  : check for needed Python3 modules and exit
   -f|--force       : don't use option --strict for zensical build
   -n|--no-check    : no check for needed Python3 modules
-  -p|--port <port> : change port (default: ${port})
+  -p|--port <port> : serve: change port (default: ${port})
 
   Arguments
   venv          : create the required virtual environment and exit
+  build         : create the site (default)
+                  (zensical build)
   deploy        : create the site and push all data to branch gh-pages
                   (zensical build ; ghp-import - similar to: mkdocs gh-deploy)
   serve         : Run the Zensical builtin development server
@@ -96,7 +100,9 @@ do
             exit 0
             ;;
         -V | --version)
-            echo ${VERSION_STRING}
+            echo "${VERSION_STRING}"
+            echo "${COPYRIGHT}"
+            echo "${LICENSE}"
             exit 0
             ;;
         -c | --check-only)
@@ -146,6 +152,7 @@ if [ "$1" != "" ]
 then
     case "$1" in
         venv)   ;;
+        build) ;;
         deploy) ;;
         serve)  ;;
         shut)
@@ -331,6 +338,7 @@ then
     # 500 milliseconds (aligned with MkDocs behavior)
     ##### export ZENSICAL_POLL_INTERVAL=500
     #
+    rm -fr ./.cache
     rm -fr ./site
     echo "${SCRIPT_NAME}: zensical serve --dev-addr "localhost:${port}" ..."
     zensical serve --dev-addr "localhost:${port}" &
@@ -347,20 +355,22 @@ fi
 #
 ###############################################################################
 #
-grep zensical_version data/variables.yml >/dev/null 2>/dev/null
+grep zensical_version docs/assets/variables.yml >/dev/null 2>/dev/null
 if [ $? -ne 0 ]
 then
-    echo "${SCRIPT_NAME}: ERROR: variable zensical_version missing in file data/variables.yml"
+    echo "${SCRIPT_NAME}: ERROR: variable zensical_version missing in file docs/assets/variables.yml"
 else
-    grep $(zensical --version) data/variables.yml >/dev/null 2>/dev/null
+    grep $(zensical --version) docs/assets/variables.yml >/dev/null 2>/dev/null
     if [ $? -ne 0 ]
     then
-        echo "${SCRIPT_NAME}: WARN: update Zensical version in variable zensical_version in file data/variables.yml"
+        echo "${SCRIPT_NAME}: WARN: update Zensical version in variable zensical_version in file docs/assets/variables.yml"
     fi
 fi
 #
 ###############################################################################
 #
+rm -fr ./.cache
+rm -fr ./site
 if [ ${force} -eq 1 ]
 then
     echo "${SCRIPT_NAME}: zensical build --clean"

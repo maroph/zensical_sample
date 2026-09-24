@@ -1,4 +1,4 @@
-# 23-SEP-2026
+# 24-SEP-2026
 # Zensical >= 0.0.64
 [project]
 dev_addr = "localhost:8000"
@@ -30,7 +30,9 @@ nav = [
     { "Markdown Exec" = "zensical/exec.md" },
     { "Variables" = "zensical/variables.md" }
   ]},
-  { "Blog" = "blog/index.md" },
+  { "Blog" = [
+    { "Blog" = "blog/index.md" }
+  ]},
   { "Info" = [
     { "About" = "info/about.md" },
     { "License" = "info/license.md" }
@@ -57,6 +59,7 @@ extra_css = ["assets/extra/css/extra.css"]
 # Read more: https://zensical.org/docs/customization/#additional-javascript
 #extra_javascript = ["javascripts/extra.js"]
 
+
 # https://zensical.org/docs/setup/validation/
 [project.validation]
 invalid_links = true
@@ -68,6 +71,7 @@ unresolved_references = false
 # unused_footnotes = false
 # shadowed_definitions = false
 # shadowed_footnotes = false
+
 
 # ----------------------------------------------------------------------------
 # Section for configuring theme options
@@ -268,6 +272,7 @@ palette = [
   }
 ]
 
+
 # ----------------------------------------------------------------------------
 # You can configure your own logo to be shown in the header using the "logo"
 # option in the "icons" subsection. The logo can be a path to a file in your
@@ -291,6 +296,7 @@ edit = "material/pencil"
 view = "material/eye"
 previous = "fontawesome/solid/angle-left"
 next = "fontawesome/solid/angle-right"
+
 
 # Enabled Markdown Extensions
 
@@ -320,9 +326,9 @@ pygments_lang_class = "true"
 # https://python-markdown.github.io/extensions/tables/
 [project.markdown_extensions.tables]
 
+
 # https://zensical.org/docs/setup/blog/
 # https://squidfunk.github.io/mkdocs-material/plugins/blog/#configuration
-
 [project.plugins.blog]
 enabled = true
 authors = true
@@ -342,16 +348,15 @@ pagination_if_single_page = false
 post_excerpt = "optional"
 post_excerpt_separator = "<!-- more -->"
 post_readtime = false
-archive = false
-# archive = true
-# # URL: site_url/blog/archive/2026.html
-# archive_name = "Archive"
-# archive_date_format = "yyyy"
-# archive_url_date_format = "yyyy"
-# archive_url_format = "archive/{date}"
-# archive_pagination = false
-# archive_toc = true
-# categories = false
+archive = true
+archive_name = "Archive"
+archive_date_format = "yyyy"
+archive_url_date_format = "yyyy"
+# URL: site_url/blog/archive/yyyy.html
+archive_url_format = "archive/{date}"
+archive_pagination = false
+archive_toc = true
+categories = false
 
 # https://zensical.org/docs/setup/extensions/macros/
 # [project.markdown_extensions.zensical.extensions.macros]
@@ -401,8 +406,8 @@ enabled = false
 #       feed_description: My Zensical Sample Blog
 #       feed_title: Blog
 #       feed_ttl: 1440
-#       logo: https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Feed-icon.svg/128px-Feed-icon.svg.png
-#       image: https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Feed-icon.svg/128px-Feed-icon.svg.png
+#       # logo: 
+#       # image: 
 #       json_feed_enabled: false
 #       length: 10
 #       use_git: false

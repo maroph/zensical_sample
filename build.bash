@@ -12,7 +12,7 @@ declare -r LICENSE="License: CC-BY 4.0 <https://creativecommons.org/licenses/by/
 #
 declare -r SCRIPT_NAME=$(basename $0)
 declare -r VERSION="0.1.0"
-declare -r VERSION_DATE="23-SEP-2026"
+declare -r VERSION_DATE="24-SEP-2026"
 declare -r VERSION_STRING="${SCRIPT_NAME}  ${VERSION}  (${VERSION_DATE})"
 #
 ###############################################################################
@@ -61,7 +61,7 @@ port=8000
 print_usage() {
     cat - <<EOT
 
-Usage: ${SCRIPT_NAME} [option(s)] [venv|build|deploy|serve|shut]
+Usage: ${SCRIPT_NAME} [option(s)] [venv|build|deploy|serve|shut|status]
        Call zensical to build the site related files
        https://zensical.org/
 
@@ -83,10 +83,18 @@ Options:
                   (zensical serve)
                   Default URL: http://localhost:${port}
   shut          : shutdown Zensical development web server
+  status        : show status of  Zensical development web server
 
   Default: call 'zensical build'
 
 EOT
+}
+#
+###############################################################################
+#
+getpid() {
+    pid=$(ps -opid,cmd | grep '/zensical' | grep -v grep | awk '{ print $1; }')
+    echo "${pid}"
 }
 #
 ###############################################################################
@@ -151,13 +159,23 @@ done
 if [ "$1" != "" ]
 then
     case "$1" in
-        venv)   ;;
+        venv) ;;
         build) ;;
         deploy) ;;
-        serve)  ;;
+        serve) ;;
         shut)
             echo "${SCRIPT_NAME}: shutdown Zensical development web server"
             pkill -15 zensical || exit 1
+            exit 0
+            ;;
+        status)
+            pid=$(getpid)
+            if [ "${pid}" != "" ]
+            then
+                echo "${SCRIPT_NAME}: Zensical server running, pid: ${pid}"
+            else
+                echo "${SCRIPT_NAME}: Zensical server not running"
+            fi
             exit 0
             ;;
         *)
@@ -175,6 +193,13 @@ cd ${SCRIPT_DIR} || exit 1
 #
 if [ "$1" = "venv" ]
 then
+    pid=$(getpid)
+    if [ "${pid}" != "" ]
+    then
+        echo "${SCRIPT_NAME}: Zensical server running, pid: ${pid}"
+        exit 1
+    fi
+    #
     if [ "${VIRTUAL_ENV}" != "" ]
     then
         echo "${SCRIPT_NAME}: deactivate the current virtual environment"
@@ -302,6 +327,13 @@ then
         GHP_IMPORT="ghp-import"
     fi
 #
+    pid=$(getpid)
+    if [ "${pid}" != "" ]
+    then
+        echo "${SCRIPT_NAME}: Zensical server running, pid: ${pid}"
+        exit 1
+    fi
+#
     echo "${SCRIPT_NAME}: zensical build --clean --strict"
     zensical build --clean --strict || exit 1
     echo ""
@@ -326,6 +358,13 @@ fi
 #
 if [ "$1" = "serve" ]
 then
+    pid=$(getpid)
+    if [ "${pid}" != "" ]
+    then
+        echo "${SCRIPT_NAME}: Zensical server already running, pid: ${pid}"
+        exit 1
+    fi
+    #
     # File Watcher
     # see: https://github.com/zensical/zensical/releases/tag/v0.0.28
     #
@@ -368,6 +407,14 @@ else
 fi
 #
 ###############################################################################
+#
+pid=$(getpid)
+if [ "${pid}" != "" ]
+then
+    echo "${SCRIPT_NAME}: Zensical server running, pid: ${pid}"
+    exit 1
+fi
+#
 #
 rm -fr ./.cache
 rm -fr ./site

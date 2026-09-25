@@ -2,5 +2,5 @@
 # Variables are accessible as {{ variable }} in templates
 author : "Manfred Rosenboom"
 version : "1.0"
-zensical_version : "0.0.64"
+zensical_version : "0.0.65"
 

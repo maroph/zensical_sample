@@ -1,5 +1,5 @@
-# 24-SEP-2026
-# Zensical >= 0.0.64
+# 25-SEP-2026
+# Zensical >= 0.0.65
 [project]
 dev_addr = "localhost:8000"
 
@@ -372,11 +372,66 @@ on_error_fail = true
 
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#minify
 [project.plugins.minify]
+enabled = true
 minify_html = true
+minify_js = false
+minify_css = false
+htmlmin_opts = {
+    remove_comments = true
+}
+# js_files = {
+#     "my/javascript/dir/file1.js",
+#     "my/javascript/dir/file2.js"
+# }
+# css_files = {
+#     "my/css/dir/file1.css",
+#     "my/css/dir/file2.css"
+# }
 
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#offline
 [project.plugins.offline]
 enabled = false
+
+# https://zensical.org/docs/compatibility/mkdocs/plugins/#rss
+# https://guts.github.io/mkdocs-rss-plugin/
+# https://guts.github.io/mkdocs-rss-plugin/configuration/
+[project.plugins.rss]
+enabled = true
+match_path = "blog/posts/.*"
+abstract_chars_count = 160
+abstract_delimiter = "<!-- more -->"
+date_from_meta = {
+    as_creation = "date",
+    as_update = "git",
+    # as_creation = "created",
+    # as_update = "updated",
+    datetime_format = "%Y-%m-%d %H:%M",
+    default_timezone = "Europe/Berlin",
+    default_time = "12:00"
+}
+feed_description = "My Zensical Sample Blog"
+feeds_filenames = {
+    json_created = "feed_created.json",
+    json_updated = "feed_updated.json",
+    rss_created = "feed_created.xml",
+    rss_updated = "feed_updated.xml"
+}
+feed_title = "Blog"
+feed_ttl = 1440
+image = "assets/128px-Feed-icon.svg.png"
+json_feed_enabled = false
+length = 10
+pretty_print = true
+rss_feed_enabled = true
+stylesheet = "auto"
+# url_parameters = {
+#     utm_source = "documentation",
+#     utm_medium = "RSS",
+#     utm_campaign = "feed-syndication"
+# }
+use_git = true
+# use_material_blog = true
+# use_material_social_cards = false
 
 
 # Missing MkDocs/Material plugins:
@@ -391,27 +446,6 @@ enabled = false
 # - privacy:
 #       enabled: true
 #       cache: true
-# # https://guts.github.io/mkdocs-rss-plugin/configuration/
-# - rss:
-#       enabled: true
-#       match_path: "blog/posts/.*"
-#       abstract_chars_count: 160
-#       abstract_delimiter: "<!-- more -->"
-#       date_from_meta:
-#             as_creation: "date"
-#             as_update: "updated"
-#             datetime_format: "%Y-%m-%d %H:%M"
-#             default_time: "12:00"
-#             default_timezone: Europe/Berlin
-#       feed_description: My Zensical Sample Blog
-#       feed_title: Blog
-#       feed_ttl: 1440
-#       # logo: 
-#       # image: 
-#       json_feed_enabled: false
-#       length: 10
-#       use_git: false
-#       use_material_blog: true
 
 
 # ----------------------------------------------------------------------------

@@ -357,11 +357,20 @@ archive_url_format = "archive/{date}"
 archive_pagination = false
 archive_toc = true
 categories = false
+# categories = true
+# categories_name = "Categories"
+# categories_url_format = "category/{slug}"
+# categories_toc = true
+# categories_allowed = [
+#     "Announcement",
+#     "General"
+# ]
 
 # https://zensical.org/docs/setup/extensions/macros/
 # [project.markdown_extensions.zensical.extensions.macros]
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#macros
 [project.plugins.macros]
+enabled = true
 # module_name = "docs/assets/variables"
 include_yaml = ["docs/assets/variables.yml"]
 on_undefined = "strict"
@@ -369,6 +378,7 @@ on_error_fail = true
 
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#markdown-exec
 [project.plugins.markdown-exec]
+enabled = true
 
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#minify
 [project.plugins.minify]
@@ -400,6 +410,10 @@ enabled = true
 match_path = "blog/posts/.*"
 abstract_chars_count = 160
 abstract_delimiter = "<!-- more -->"
+# categories = [
+#     "categories",
+#     "tags"
+# ]
 date_from_meta = {
     as_creation = "date",
     as_update = "git",

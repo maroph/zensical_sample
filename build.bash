@@ -12,7 +12,7 @@ declare -r LICENSE="License: CC-BY 4.0 <https://creativecommons.org/licenses/by/
 #
 declare -r SCRIPT_NAME=$(basename $0)
 declare -r VERSION="0.1.0"
-declare -r VERSION_DATE="24-SEP-2026"
+declare -r VERSION_DATE="25-SEP-2026"
 declare -r VERSION_STRING="${SCRIPT_NAME}  ${VERSION}  (${VERSION_DATE})"
 #
 ###############################################################################
@@ -394,15 +394,19 @@ fi
 #
 ###############################################################################
 #
-grep zensical_version docs/assets/variables.yml >/dev/null 2>/dev/null
-if [ $? -ne 0 ]
+if [ -r docs/assets/variables.yml ]
 then
-    echo "${SCRIPT_NAME}: ERROR: variable zensical_version missing in file docs/assets/variables.yml"
-else
-    grep $(zensical --version) docs/assets/variables.yml >/dev/null 2>/dev/null
+    grep zensical_version docs/assets/variables.yml >/dev/null 2>/dev/null
     if [ $? -ne 0 ]
     then
-        echo "${SCRIPT_NAME}: WARN: update Zensical version in variable zensical_version in file docs/assets/variables.yml"
+        echo "${SCRIPT_NAME}: ERROR: variable zensical_version missing in file docs/assets/variables.yml"
+    else
+        grep $(zensical --version) docs/assets/variables.yml >/dev/null 2>/dev/null
+        if [ $? -ne 0 ]
+        then
+            echo "${SCRIPT_NAME}: WARN: update Zensical version in variable zensical_version in file docs/assets/variables.yml"
+            echo "${SCRIPT_NAME}: WARN: current Zensical version: $(zensical --version)"
+        fi
     fi
 fi
 #

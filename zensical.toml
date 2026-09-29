@@ -1,4 +1,4 @@
-# 25-SEP-2026
+# 28-SEP-2026
 # Zensical >= 0.0.65
 [project]
 dev_addr = "localhost:8000"
@@ -371,6 +371,7 @@ categories = false
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#macros
 [project.plugins.macros]
 enabled = true
+# module file name: variables.py
 # module_name = "docs/assets/variables"
 include_yaml = ["docs/assets/variables.yml"]
 on_undefined = "strict"
@@ -378,6 +379,10 @@ on_error_fail = true
 
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#markdown-exec
 [project.plugins.markdown-exec]
+enabled = true
+
+# https://zensical.org/docs/compatibility/mkdocs/plugins/#meta
+[project.plugins.meta]
 enabled = true
 
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#minify

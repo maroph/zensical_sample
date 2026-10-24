@@ -1,20 +1,42 @@
-# 28-SEP-2026
-# Zensical >= 0.0.65
+# 23-OCT-2026
+# Zensical >= 0.0.72
 [project]
 dev_addr = "localhost:8000"
 
 site_name = "Zensical Sample Site"
-site_description = "A new project generated from the default template project."
 site_author = "Manfred Rosenboom>"
 site_url = "https://maroph.github.io/zensical_sample/"
+site_description = """
+My Zensical sample site, using the featurees I'm mainly interested in.
+"""
+
+repo_url = "https://github.com/maroph/zensical_sample"
+repo_name = "maroph/zensical_sample"
+edit_uri = "edit/main/docs/"
 
 docs_dir = "docs"
 site_dir = "site"
 use_directory_urls = false
 
-repo_url = "https://github.com/maroph/zensical_sample"
-repo_name = "maroph/zensical_sample"
-edit_uri = "edit/main/docs/"
+# https://zensical.org/docs/setup/basics/#exclude_docs
+exclude_docs = """
+!.nojekyll
+!.well-known
+"""
+
+##### # https://zensical.org/docs/setup/basics/#draft_docs
+##### [project]
+##### draft_docs = """
+##### /drafts/
+##### *.draft.md
+##### """
+
+##### # https://zensical.org/docs/setup/basics/#not_in_nav
+##### [project]
+##### not_in_nav = """
+##### /internal/
+##### changelog.md
+##### """
 
 copyright = """
 Copyright &copy 2025-2026 <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> by <a href="https://maroph.github.io/">Manfred Rosenboom</a><br/>
@@ -327,7 +349,22 @@ pygments_lang_class = "true"
 [project.markdown_extensions.tables]
 
 
+## # https://zensical.org/docs/compatibility/mkdocs/plugins/#audio
+## # https://github.com/jfcmontmorency/mkdocs-audio
+## # ![type:audio](assets/audio.mp3)
+## [project.plugins.audio]
+## enabled = true
+## mark = "type:audio"
+## audio_type = "mp3"
+## audio_controls = true
+## audio_autoplay = false
+## audio_loop = false
+## css_style = {
+##     width = "100%"
+## }
+
 # https://zensical.org/docs/setup/blog/
+# https://zensical.org/docs/compatibility/mkdocs/plugins/#blog
 # https://squidfunk.github.io/mkdocs-material/plugins/blog/#configuration
 [project.plugins.blog]
 enabled = true
@@ -366,26 +403,38 @@ categories = false
 #     "General"
 # ]
 
+##### # https://zensical.org/docs/compatibility/mkdocs/plugins/#git-revision-date-localized
+##### # https://timvink.github.io/mkdocs-git-revision-date-localized-plugin/index.html
+##### [project.plugins.git-revision-date-localized]
+##### enabled = true
+##### enable_creation_date = false
+##### fallback_to_build_date = true
+##### timezone = Europe/Amsterdam
+##### type = iso_datetime
+
 # https://zensical.org/docs/setup/extensions/macros/
-# [project.markdown_extensions.zensical.extensions.macros]
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#macros
+# [project.markdown_extensions.zensical.extensions.macros]
 [project.plugins.macros]
 enabled = true
 # module file name: variables.py
-# module_name = "docs/assets/variables"
-include_yaml = ["docs/assets/variables.yml"]
+# module_name = "data/variables"
+include_yaml = ["data/variables.yml"]
 on_undefined = "strict"
 on_error_fail = true
 
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#markdown-exec
+# https://github.com/pawamoy/markdown-exec
 [project.plugins.markdown-exec]
 enabled = true
 
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#meta
+# https://squidfunk.github.io/mkdocs-material/plugins/meta/
 [project.plugins.meta]
 enabled = true
 
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#minify
+# https://github.com/byrnereese/mkdocs-minify-plugin
 [project.plugins.minify]
 enabled = true
 minify_html = true
@@ -403,9 +452,15 @@ htmlmin_opts = {
 #     "my/css/dir/file2.css"
 # }
 
-# https://zensical.org/docs/compatibility/mkdocs/plugins/#offline
-[project.plugins.offline]
-enabled = false
+##### # https://zensical.org/docs/compatibility/mkdocs/plugins/#offline
+##### # https://squidfunk.github.io/mkdocs-material/plugins/offline/
+##### [project.plugins.offline]
+##### enabled = true
+
+# https://zensical.org/docs/compatibility/mkdocs/plugins/#privacy
+# https://squidfunk.github.io/mkdocs-material/plugins/privacy/
+[project.plugins.privacy]
+enabled = true
 
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#rss
 # https://guts.github.io/mkdocs-rss-plugin/
@@ -452,20 +507,34 @@ use_git = true
 # use_material_blog = true
 # use_material_social_cards = false
 
+# https://zensical.org/docs/compatibility/mkdocs/plugins/#search
+# https://zensical.org/docs/setup/search/
+[project.plugins.search]
+enabled = true
 
-# Missing MkDocs/Material plugins:
-# # https://timvink.github.io/mkdocs-git-revision-date-localized-plugin/index.html
-# - git-revision-date-localized:
-#       enable_creation_date: false
-#       fallback_to_build_date: true
-#       timezone: Europe/Amsterdam
-#       type: iso_datetime
-# - info:
-#       enabled: false
-# - privacy:
-#       enabled: true
-#       cache: true
+# https://zensical.org/docs/compatibility/mkdocs/plugins/#social
+# https://squidfunk.github.io/mkdocs-material/plugins/social/
+[project.plugins.social]
+enabled = true
 
+## # https://zensical.org/docs/compatibility/mkdocs/plugins/#video
+## # https://github.com/soulless-viewer/mkdocs-video
+## # ![type:video](assets/video.mp4)
+## [project.plugins.video]
+## enabled = true
+## mark = "type:video"
+## # Use a native video element instead of an iframe
+## is_video = true
+## video_type = "mp4"
+## video_controls = true
+## video_autoplay = false
+## video_loop = false
+## video_muted = false
+## css_style = {
+##     position = "relative", 
+##     width = "100%", 
+##     height = "22.172vw"
+## }
 
 # ----------------------------------------------------------------------------
 # The "extra" section contains miscellaneous settings.

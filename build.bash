@@ -12,7 +12,7 @@ declare -r LICENSE="License: CC-BY 4.0 <https://creativecommons.org/licenses/by/
 #
 declare -r SCRIPT_NAME=$(basename $0)
 declare -r VERSION="0.1.0"
-declare -r VERSION_DATE="29-SEP-2026"
+declare -r VERSION_DATE="24-OCT-2026"
 declare -r VERSION_STRING="${SCRIPT_NAME}  ${VERSION}  (${VERSION_DATE})"
 #
 ###############################################################################
@@ -33,7 +33,11 @@ declare -r SCRIPT_DIR
 #
 ###############################################################################
 #
+# 1: show use_ values wiht option -V/--version
+declare -r show_use_variables=1
 declare -r use_markdown_exec=1
+declare -r use_ghp_import=1
+declare -r use_zensical_version=1
 #
 ###############################################################################
 #
@@ -46,18 +50,24 @@ fi
 declare -r gitrepo
 #
 GHP_IMPORT=""
-if [ -x $HOME/bin/ghp-import.bash ]
+if [ ${use_ghp_import} -eq 1 ]
 then
-    GHP_IMPORT="$HOME/bin/ghp-import.bash"
+    if [ -x $HOME/bin/ghp-import.bash ]
+    then
+        GHP_IMPORT="$HOME/bin/ghp-import.bash"
+    fi
 fi
-
 #
 ###############################################################################
 #
 export LANG="en_US.UTF-8"
+umask 0027
+#
+###############################################################################
 #
 check=1
 checkOnly=0
+cleanup=0
 force=0
 port=8000
 #
@@ -74,6 +84,7 @@ Options:
   -h|--help        : show this help and exit
   -V|--version     : show version information and exit
   -c|--check-only  : check for needed Python3 modules and exit
+  --cleanup        : build|deploy|serve: remove from directories .cache and site
   -f|--force       : don't use option --strict for zensical build
   -n|--no-check    : no check for needed Python3 modules
   -p|--port <port> : serve: change port (default: ${port})
@@ -120,10 +131,20 @@ do
             echo "${VERSION_STRING}"
             echo "${COPYRIGHT}"
             echo "${LICENSE}"
+            if [ ${show_use_variables} -eq 1 ]
+            then
+                echo "---"
+                echo "use_markdown_exec    : ${use_markdown_exec}"
+                echo "use_ghp_import       : ${use_ghp_import}"
+                echo "use_zensical_version : ${use_zensical_version}"
+            fi
             exit 0
             ;;
         -c | --check-only)
             checkOnly=1
+            ;;
+        --cleanup)
+            cleanup=1
             ;;
         -f | --force)
             force=1
@@ -244,8 +265,11 @@ then
         python -m pip install --upgrade markdown-exec || exit 1
     fi
 #
-    echo "${SCRIPT_NAME}: python -m pip install --upgrade ghp-import"
-    python -m pip install --upgrade ghp-import || exit 1
+    if [ ${use_ghp_import} -eq 1 ]
+    then
+        echo "${SCRIPT_NAME}: python -m pip install --upgrade ghp-import"
+        python -m pip install --upgrade ghp-import || exit 1
+    fi
 #
     echo "${SCRIPT_NAME}: python -m pip freeze >requirements.txt"
     python -m pip freeze >${SCRIPT_DIR}/venv/requirements.txt || exit 1
@@ -296,15 +320,18 @@ then
     echo ${data} | awk '{ printf "%s %s\n%s %s\n", $1, $2, $3, $4;}'
     echo ""
 #
-    data=$(python -m pip show ghp-import 2>/dev/null)
-    if [ $? -ne 0 ]
+    if [ ${use_markdown_exec} -eq 1 ]
     then
-        echo "${SCRIPT_NAME}: Python module ghp-import not available"
-        exit 1
+        data=$(python -m pip show ghp-import 2>/dev/null)
+        if [ $? -ne 0 ]
+        then
+            echo "${SCRIPT_NAME}: Python module ghp-import not available"
+            exit 1
+        fi
+        echo ${data} | awk '{ printf "%s %s\n%s %s\n", $1, $2, $3, $4;}'
+        echo "----------"
+        echo ""
     fi
-    echo ${data} | awk '{ printf "%s %s\n%s %s\n", $1, $2, $3, $4;}'
-    echo "----------"
-    echo ""
 #
     if [ ${use_markdown_exec} -eq 1 ]
     then
@@ -330,6 +357,12 @@ fi
 #
 if [ "$1" = "deploy" ]
 then
+    if [ ${use_ghp_import} -eq 0 ]
+    then
+        echo "${SCRIPT_NAME}: ghp-import not supported"
+        exit 1
+    fi
+#
     if [ ${gitrepo} -eq 0 ]
     then
         echo "${SCRIPT_NAME}: current directory is not a Git repository"
@@ -356,19 +389,17 @@ then
         exit 1
     fi
 #
+    if [ ${cleanup} -eq 1 ]
+    then
+        rm -fr ./.cache
+        rm -fr ./site
+        mkdir ./.cache || exit 1
+        mkdir ./site || exit 1
+    fi
+#
     echo "${SCRIPT_NAME}: zensical build --clean --strict"
     zensical build --clean --strict || exit 1
     echo ""
-#
-    if [ -d docs/.well-known ]
-    then
-        if [ ! -d site/.well-known ]
-        then
-            cp -rp docs/.well-known site || exit 1
-        else
-            cp -p --update=older docs/.well-known/security*.txt site/.wel-known || exit 1
-        fi
-    fi
 #
     # export GIT_TRACE=1
     # export GIT_CURL_VERBOSE=1
@@ -402,8 +433,13 @@ then
     # 500 milliseconds (aligned with MkDocs behavior)
     ##### export ZENSICAL_POLL_INTERVAL=500
     #
-    rm -fr ./.cache
-    rm -fr ./site
+    if [ ${cleanup} -eq 1 ]
+    then
+        rm -fr ./.cache
+        rm -fr ./site
+        mkdir ./.cache || exit 1
+        mkdir ./site || exit 1
+    fi
     echo "${SCRIPT_NAME}: zensical serve --dev-addr "localhost:${port}" ..."
     zensical serve --dev-addr "localhost:${port}" &
     exit 0
@@ -411,17 +447,23 @@ fi
 #
 ###############################################################################
 #
-if [ -r docs/assets/variables.yml ]
+if [ ! -r data/variables.yml ]
 then
-    grep zensical_version docs/assets/variables.yml >/dev/null 2>/dev/null
+    if [ ${use_zensical_version} -eq 1 ]
+    then
+        echo "${SCRIPT_NAME}: ERROR: missing file data/variables.yml"
+        echo "${SCRIPT_NAME}: ERROR: variable zensical_version is expected in this file"
+    fi
+else
+    grep zensical_version data/variables.yml >/dev/null 2>/dev/null
     if [ $? -ne 0 ]
     then
-        echo "${SCRIPT_NAME}: ERROR: variable zensical_version missing in file docs/assets/variables.yml"
+        echo "${SCRIPT_NAME}: ERROR: variable zensical_version missing in file data/variables.yml"
     else
-        grep $(zensical --version) docs/assets/variables.yml >/dev/null 2>/dev/null
+        grep zensical_version data/variables.yml | grep $(zensical --version) >/dev/null 2>/dev/null
         if [ $? -ne 0 ]
         then
-            echo "${SCRIPT_NAME}: WARN: update Zensical version in variable zensical_version in file docs/assets/variables.yml"
+            echo "${SCRIPT_NAME}: WARN: update Zensical version in variable zensical_version in file data/variables.yml"
             echo "${SCRIPT_NAME}: WARN: current Zensical version: $(zensical --version)"
         fi
     fi
@@ -437,8 +479,13 @@ then
 fi
 #
 #
-rm -fr ./.cache
-rm -fr ./site
+if [ ${cleanup} -eq 1 ]
+then
+    rm -fr ./.cache
+    rm -fr ./site
+    mkdir ./.cache || exit 1
+    mkdir ./site || exit 1
+fi
 if [ ${force} -eq 1 ]
 then
     echo "${SCRIPT_NAME}: zensical build --clean"
@@ -449,18 +496,6 @@ else
 fi
 echo ""
 #
-touch site/.nojekyll
-chmod 640 site/.nojekyll
-#
-if [ -d docs/.well-known ]
-then
-    if [ ! -d site/.well-known ]
-    then
-        cp -rp docs/.well-known site || exit 1
-    else
-        cp -p --update=older docs/.well-known/security*.txt site/.wel-known || exit 1
-    fi
-fi
 #
 if [ -d ${SCRIPT_DIR}/.git ]
 then

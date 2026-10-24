@@ -1,0 +1,5 @@
+# Last updated: 17-OCT-2026
+Contact: mailto:maroph@pm.me
+Expires: 2026-12-31T22:59:00.000Z
+Preferred-Languages: de, en, nl
+Canonical: https://maroph.github.io/zensical_sample/

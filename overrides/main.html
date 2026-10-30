@@ -1,0 +1,34 @@
+{#-
+  This file is based on https://github.com/zensical/docs/blob/master/overrides/main.html
+-#}
+{% extends "base.html" %}
+{% block extrahead %}
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://maroph.github.io/zensical_sample/">
+  <meta property="og:title" content="Zensical Sample Site">
+  <meta property="og:description" content="My Zensical sample site, using the features I'm mainly interested in."
+  {#-
+  <meta property="og:image" content="https://maroph.github.io/zensical_sample/assets/social.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  -#}
+  <meta property="og:image:alt" content="My Zensical sample site">
+  <meta property="og:locale" content="en_US">
+  <meta name=fediverse:creator content="@maroph@mastodon.social">
+  <link rel="me" href="https://mastodon.social/@maroph">
+{% endblock %}
+
+{#-
+{% block announce %}
+  <a class="mdx-announcement" href="https://zensical.org/docs/get-started/">
+    <!--
+    <span class="mdx-announcement__label">New Site: </span>
+    -->
+    <span class="mdx-announcement__message">
+      <span class="mdx-announcement__content">This site is created with Zensical</span>
+      <span class="mdx-announcement__separator" aria-hidden="true"> &ndash; </span>
+      <span class="mdx-announcement__action">Have a look at the documentation</span>
+    </span>
+  </a>
+{% endblock %}
+-#}

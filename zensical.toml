@@ -1,5 +1,5 @@
-# 23-OCT-2026
-# Zensical >= 0.0.72
+# 27-OCT-2026
+# Zensical >= 0.0.73
 [project]
 dev_addr = "localhost:8000"
 
@@ -7,7 +7,7 @@ site_name = "Zensical Sample Site"
 site_author = "Manfred Rosenboom>"
 site_url = "https://maroph.github.io/zensical_sample/"
 site_description = """
-My Zensical sample site, using the featurees I'm mainly interested in.
+My Zensical sample site, using the features I'm mainly interested in.
 """
 
 repo_url = "https://github.com/maroph/zensical_sample"
@@ -119,10 +119,13 @@ font = false
 # Read more:
 # - https://zensical.org/docs/customization/#extending-the-theme
 #
-#custom_dir = "overrides"
+# Source of templates:
+# https://github.com/zensical/ui/tree/master/dist
+#
+##### custom_dir = "overrides"
 
-favicon = "assets/zensical_32x32.png"
-logo = "assets/great_wave_off_kanagawa_100x100.png"
+favicon = "assets/great_wave_off_kanagawa_circle_64x64.png"
+logo = "assets/great_wave_off_kanagawa_circle_251x251.png"
 
 # https://zensical.org/docs/setup/language/
 language = "en"
@@ -512,10 +515,10 @@ use_git = true
 [project.plugins.search]
 enabled = true
 
-# https://zensical.org/docs/compatibility/mkdocs/plugins/#social
-# https://squidfunk.github.io/mkdocs-material/plugins/social/
-[project.plugins.social]
-enabled = true
+##### # https://zensical.org/docs/compatibility/mkdocs/plugins/#social
+##### # https://squidfunk.github.io/mkdocs-material/plugins/social/
+##### [project.plugins.social]
+##### enabled = true
 
 ## # https://zensical.org/docs/compatibility/mkdocs/plugins/#video
 ## # https://github.com/soulless-viewer/mkdocs-video

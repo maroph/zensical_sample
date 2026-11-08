@@ -2,5 +2,6 @@ authors:
     maroph:
         name: Manfred Rosenboom
         description: Web Site Creator
-        avatar: https://avatars.githubusercontent.com/u/1909126
+        # avatar: https://avatars.githubusercontent.com/u/1909126
+        avatar: https://maroph.github.io/zensical_sample/assets/great_wave_off_kanagawa_circle_251x251.png
         url: https://github.com/maroph

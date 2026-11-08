@@ -1,4 +1,4 @@
-# 05-NOV-2026
+# 06-NOV-2026
 # Zensical >= 0.1.0
 [project]
 dev_addr = "localhost:8000"
@@ -43,6 +43,7 @@ Copyright &copy 2025-2026 <a href="https://creativecommons.org/licenses/by/4.0/"
 <a href="#__consent">Change cookie settings</a>
 """
 
+
 nav = [
   { "Home" = "index.md" },
   { "Zensical" = [
@@ -60,6 +61,7 @@ nav = [
     { "License" = "info/license.md" }
   ]}
 ]
+
 
 # With the "extra_css" option you can add your own CSS styling to customize
 # your Zensical project according to your needs. You can add any number of
@@ -86,13 +88,12 @@ extra_css = ["assets/extra/css/extra.css"]
 [project.validation]
 invalid_links = true
 invalid_link_anchors = true
-# unresolved_references: 0.0.56: deprecated, will be remove in a future release
 unresolved_references = false
-# unresolved_footnotes = false
-# unused_definitions = false
-# unused_footnotes = false
-# shadowed_definitions = false
-# shadowed_footnotes = false
+unresolved_footnotes = false
+unused_definitions = false
+unused_footnotes = false
+shadowed_definitions = false
+shadowed_footnotes = false
 
 
 # ----------------------------------------------------------------------------
@@ -285,22 +286,22 @@ features = [
 # ----------------------------------------------------------------------------
 
 palette = [
-  {
-    scheme = "default",
-    media = "(prefers-color-scheme: light)",
-    toggle = {
-      icon = "lucide/sun",
-      name = "Switch to dark mode"
+    {
+        scheme = "default",
+        media = "(prefers-color-scheme: light)",
+        toggle = {
+            icon = "lucide/sun",
+            name = "Switch to dark mode"
+          }
+    },
+    {
+        scheme = "slate",
+        media = "(prefers-color-scheme: dark)",
+        toggle = {
+            icon = "lucide/moon",
+            name = "Switch to light mode"
+          }
     }
-  },
-  {
-    scheme = "slate",
-    media = "(prefers-color-scheme: dark)",
-    toggle = {
-      icon = "lucide/moon",
-      name = "Switch to light mode"
-    }
-  }
 ]
 
 
@@ -572,43 +573,44 @@ enabled = true
 generator = true
 
 social = [
-#####  {
-#####    icon = "fontawesome/solid/blog",
-#####    link = "https://maroph.de/blog",
-#####    name = "maroph.de/blog"
-#####  },
-#####  {
-#####    icon = "fontawesome/brands/bluesky",
-#####    link = "https://bsky.app/profile/maroph.eurosky.social",
-#####    name = "@maroph.bsky.social"
-#####  },
-#####  {
-#####    icon = "simple/codeberg",
-#####    link = "https://codeberg.org/maroph",
-#####    name = "codeberg.org/maroph"
-#####  },
-#####  {
-#####    icon = "fontawesome/brands/codepen",
-#####    link = "https://codepen.io/maroph/",
-#####    name = "codepen.io/maroph"
-#####  },
-  {
-    icon = "fontawesome/brands/github",
-    link = "https://github.com/maroph",
-    name = "github.com/maroph"
-  },
-  {
-    icon = "fontawesome/brands/mastodon",
-    link = "https://mastodon.social/@maroph",
-    name = "mastodon.social/@maroph"
-  }
-#####  },
-#####  {
-#####    icon = "fontawesome/solid/house",
-#####    link = "https://manfred.rosenboom.name",
-#####    name = "manfred.rosenboom.name"
-#####  }
+#####    {
+#####        icon = "fontawesome/solid/blog",
+#####        link = "https://maroph.de/blog",
+#####        name = "maroph.de/blog"
+#####    },
+#####    {
+#####        icon = "fontawesome/brands/bluesky",
+#####        link = "https://bsky.app/profile/maroph.eurosky.social",
+#####        name = "@maroph.bsky.social"
+#####    },
+#####    {
+#####        icon = "simple/codeberg",
+#####        link = "https://codeberg.org/maroph",
+#####        name = "codeberg.org/maroph"
+#####    },
+#####    {
+#####        icon = "fontawesome/brands/codepen",
+#####        link = "https://codepen.io/maroph/",
+#####        name = "codepen.io/maroph"
+#####    },
+    {
+        icon = "fontawesome/brands/github",
+        link = "https://github.com/maroph",
+        name = "github.com/maroph"
+    },
+    {
+        icon = "fontawesome/brands/mastodon",
+        link = "https://mastodon.social/@maroph",
+        name = "mastodon.social/@maroph"
+    }
+#####    },
+#####    {
+#####        icon = "fontawesome/solid/house",
+#####        link = "https://manfred.rosenboom.name",
+#####        name = "manfred.rosenboom.name"
+#####    }
 ]
+
 
 # https://zensical.org/docs/setup/data-privacy/#cookie-consent
 [project.extra.consent]

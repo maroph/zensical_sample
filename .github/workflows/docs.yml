@@ -1,3 +1,6 @@
+# Deploy Zensical site data to GitHub Page
+# https://github.com/maroph/zensical_sample/blob/main/.github/workflows/docs.yml
+# 15-NOV-2026
 name: Documentation
 on:
   push:

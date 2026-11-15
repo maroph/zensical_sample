@@ -11,8 +11,8 @@ declare -r COPYRIGHT="Copyright (C) 2026 Manfred Rosenboom"
 declare -r LICENSE="License: CC-BY 4.0 <https://creativecommons.org/licenses/by/4.0/>"
 #
 declare -r SCRIPT_NAME=$(basename $0)
-declare -r VERSION="0.1.0"
-declare -r VERSION_DATE="05-NOV-2026"
+declare -r VERSION="0.2.0"
+declare -r VERSION_DATE="15-NOV-2026"
 declare -r VERSION_STRING="${SCRIPT_NAME}  ${VERSION}  (${VERSION_DATE})"
 #
 ###############################################################################
@@ -32,48 +32,115 @@ unset cwd
 declare -r SCRIPT_DIR
 #
 ###############################################################################
+# BEGIN: CONFIGURATION
 ###############################################################################
 #
 # This script is based on
 # https://github.com/maroph/zensical_sample/blob/main/build.bash
 #
-# CONFIG_EDIT_BEGIN
-# -----------------
+# Config changes can be written to the related .config file.
+#
+# DEFAULT_CONFIG__BEGIN
+# ---------------------
 # show some environment data with option -V/--version
-declare -r show_env_data=1
+declare -r default_show_env_data=1
 #
 # 1: show use_ values with option -V/--version
-declare -r show_use_variables=1
+declare -r default_show_use_variables=1
 #
 # show URL of buid.bash template file with option -V/--version
-declare -r show_template_url=1
+declare -r default_show_template_url=1
 #
 #
 # needed by Zensical plugin [project.plugins.markdown-exec]
 # hint: the module markdown-exec must be installed in your virtual environment
 # python -m pip install --upgrade markdown-exec
-declare -r use_module_markdown_exec=1
+declare -r default_use_module_markdown_exec=0
 
 # needed by Zensical plugin [project.plugins.optimize]
 # For JPG optimization you need the module Pillow
 # python -m pip install --upgrade Pillow
 # else set
 # optimize_jpg = false
-declare -r use_module_pillow=0
+declare -r default_use_module_pillow=0
 #
 # use command deploy for direct GitHub Page deployment with the module ghp-import
 # if set to 0, the command deploy can't be executed
 # hint: the module ghp-import must be installed in your virtual environment
 # python -m pip install --upgrade ghp-import
-declare -r use_module_ghp_import=1
+declare -r default_use_module_ghp_import=0
 #
 # use the Zensical plugin [project.plugins.macros] to save the
 # the Zensical version in the variable/macro zensical_version
-declare -r use_zensical_version=1
-# ---------------
-# CONFIG_EDIT_END
+declare -r default_use_zensical_version=0
+# ------------------
+# DEFAULT_CONFIG_END
 #
 ###############################################################################
+#
+if [ -r ${SCRIPT_DIR}/${SCRIPT_NAME}.config ]
+then
+    source ${SCRIPT_DIR}/${SCRIPT_NAME}.config
+#
+    if [ "${VERSION}" != "${CONFIG_VERSION}" ]
+    then
+        echo "${SCRIPT_NAME}: wrong version in file ${SCRIPT_NAME}.config"
+        echo "${SCRIPT_NAME}: VERSION        : ${VERSION}"
+        echo "${SCRIPT_NAME}: CONFIG_VERSION : ${CONFIG_VERSION}"
+        exit 1
+    fi
+fi
+#
+###############################################################################
+#
+if [ ! -v show_env_data ]
+then
+    show_env_data=${default_show_env_data}
+fi
+#
+if [ ! -v show_use_variables ]
+then
+    show_use_variables=${default_show_use_variables}
+fi
+#
+if [ ! -v show_template_url ]
+then
+    show_template_url=${default_show_template_url}
+fi
+#
+if [ ! -v use_module_markdown_exec ]
+then
+    use_module_markdown_exec=${default_use_module_markdown_exec}
+fi
+#
+if [ ! -v use_module_pillow ]
+then
+    use_module_pillow=${default_use_module_pillow}
+fi
+#
+if [ ! -v use_module_ghp_import ]
+then
+    use_module_ghp_import=${default_use_module_ghp_import}
+fi
+#
+if [ ! -v use_zensical_version ]
+then
+    use_zensical_version=${default_use_zensical_version}
+fi
+#
+###############################################################################
+#
+declare -r show_env_data
+declare -r show_use_variables
+declare -r show_template_url
+declare -r use_module_markdown_exec
+declare -r use_module_pillow
+declare -r use_module_ghp_import
+declare -r use_zensical_version
+#
+#
+###############################################################################
+# END: CONFIGURATION
 ###############################################################################
 #
 if [ -d ${SCRIPT_DIR}/.git ]
@@ -140,6 +207,10 @@ Command:
 
   Default (no command): call 'zensical build'
 
+  Configuration file      : ${SCRIPT_NAME}.config
+  Zensical data directory : 
+  ${SCRIPT_DIR}
+
 EOT
 }
 #
@@ -151,6 +222,8 @@ Extended Help: ${SCRIPT_NAME}
 Command:
   cleanup      : remove data from directories .cache and site
                  remove directory reproduction
+  config       : create config file ${SCRIPT_NAME}.config with default values
+                 use --force to overwrite an existing file
   curver       : get the current Zensical version from the GitHub repository
   reproduction : create a Zensical issue reproduction base configuration
                  (https://zensical.org/docs/guides/reproduction/)
@@ -210,6 +283,32 @@ show_version() {
         echo "This script is based on"
         echo "https://github.com/maroph/zensical_sample/blob/main/build.bash"
     fi
+}
+#
+create_default_config_file() {
+    if [ ${force} -eq 1 ]
+    then
+        rm -f ${SCRIPT_DIR}/${SCRIPT_NAME}.config
+    fi
+#
+    if [ -r ${SCRIPT_DIR}/${SCRIPT_NAME}.config ]
+    then
+        echo "SCRIPT_NAME}: config file already exist: ${SCRIPT_NAME}.config"
+        exit 1
+    fi
+#
+    cf="${SCRIPT_DIR}/${SCRIPT_NAME}.config"
+    echo "CONFIG_VERSION=\"${VERSION}\"" >${cf}
+    echo "#" >>${cf}
+    echo "show_env_data=${default_show_env_data}" >>${cf}
+    echo "show_use_variables=${default_show_use_variables}" >>${cf}
+    echo "show_template_url=${default_show_template_url}" >>${cf}
+    echo "use_module_markdown_exec=${default_use_module_markdown_exec}" >>${cf}
+    echo "use_module_pillow=${default_use_module_pillow}" >>${cf}
+    echo "use_module_ghp_import=${default_use_module_ghp_import}" >>${cf}
+    echo "use_zensical_version=${default_use_zensical_version}" >>${cf}
+    chmod 640 ${cf} ||exit 1
+    echo "SCRIPT_NAME}: config file created: ${SCRIPT_NAME}.config"
 }
 #
 ###############################################################################
@@ -318,6 +417,10 @@ case "${cmd}" in
         rm -fr ./reproduction
         mkdir ./.cache || exit 1
         mkdir ./site || exit 1
+        exit 0
+        ;;
+    config)
+        create_default_config_file
         exit 0
         ;;
     *)

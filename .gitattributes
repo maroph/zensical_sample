@@ -8,6 +8,7 @@ Makefile  text
 *.adoc    text
 *.asc     text
 *.bash    text eol=lf
+*.bash.config text eol=lf
 *.bat     text eol=crlf
 *.c       text
 *.c_m4    text

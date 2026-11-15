@@ -1,10 +1,13 @@
-# 06-NOV-2026
-# Zensical >= 0.1.0
+# 14-NOV-2026
+# Zensical >= 0.1.1
+# ---
+# Based on
+# https://github.com/maroph/zensical_sample/blob/main/zensical.toml
 [project]
 dev_addr = "localhost:8000"
 
 site_name = "Zensical Sample Site"
-site_author = "Manfred Rosenboom>"
+site_author = "Manfred Rosenboom"
 site_url = "https://maroph.github.io/zensical_sample/"
 site_description = """
 My Zensical sample site, using the features I'm mainly interested in.
@@ -143,7 +146,8 @@ features = [
     # Zensical includes an announcement bar. This feature allows users to
     # dismiss it then they have read the announcement.
     # https://zensical.org/docs/setup/header/#announcement-bar
-    "announce.dismiss",
+    # text to dismiss can be set via data in custom_dir
+    # "announce.dismiss",
 
     # If you have a repository configured and turn on this feature, Zensical
     # will generate an edit button for the page. This works for common
@@ -330,33 +334,38 @@ previous = "fontawesome/solid/angle-left"
 next = "fontawesome/solid/angle-right"
 
 
-# Enabled Markdown Extensions
-
-# https://python-markdown.github.io/extensions/attr_list/
-[project.markdown_extensions.attr_list]
-
-# https://facelessuser.github.io/pymdown-extensions/extensions/emoji/
-[project.markdown_extensions.pymdownx.emoji]
-emoji_index = "zensical.extensions.emoji.twemoji" 
-emoji_generator = "zensical.extensions.emoji.to_svg"
-
-# https://facelessuser.github.io/pymdown-extensions/extensions/highlight/
-[project.markdown_extensions.pymdownx.highlight]
-anchor_linenums = "true"
-line_spans = "__span"
-pygments_lang_class = "true"
-
-# https://facelessuser.github.io/pymdown-extensions/extensions/inlinehilite/
-[project.markdown_extensions.pymdownx.inlinehilite]
-
-# https://facelessuser.github.io/pymdown-extensions/extensions/snippets/
-[project.markdown_extensions.pymdownx.snippets]
-
-# https://facelessuser.github.io/pymdown-extensions/extensions/superfences/
-[project.markdown_extensions.pymdownx.superfences]
-
-# https://python-markdown.github.io/extensions/tables/
-[project.markdown_extensions.tables]
+# https://zensical.org/docs/compatibility/markdown/python-markdown/?h=project.markdown_extensions#python-markdown
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+tables = {}
+toc.permalink = true
+pymdownx.arithmatex.generic = true
+pymdownx.betterem = {}
+pymdownx.caret = {}
+pymdownx.details = {}
+pymdownx.emoji.emoji_generator = "zensical.extensions.emoji.to_svg"
+pymdownx.emoji.emoji_index = "zensical.extensions.emoji.twemoji"
+pymdownx.highlight.anchor_linenums = true
+pymdownx.highlight.line_spans = "__span"
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.keys = {}
+pymdownx.magiclink = {}
+pymdownx.mark = {}
+pymdownx.smartsymbols = {}
+# pymdownx.snippets.base_path = "includes"
+pymdownx.superfences.custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+pymdownx.tabbed.alternate_style = true
+pymdownx.tabbed.combine_header_slug = true
+pymdownx.tasklist.custom_checkbox = true
+pymdownx.tilde = {}
 
 
 # https://zensical.org/docs/compatibility/mkdocs/plugins/#audio

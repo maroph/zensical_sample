@@ -12,7 +12,7 @@ declare -r LICENSE="License: CC-BY 4.0 <https://creativecommons.org/licenses/by/
 #
 declare -r SCRIPT_NAME=$(basename $0)
 declare -r VERSION="0.2.0"
-declare -r VERSION_DATE="15-NOV-2026"
+declare -r VERSION_DATE="16-NOV-2026"
 declare -r VERSION_STRING="${SCRIPT_NAME}  ${VERSION}  (${VERSION_DATE})"
 #
 ###############################################################################
@@ -33,6 +33,7 @@ declare -r SCRIPT_DIR
 #
 ###############################################################################
 # BEGIN: CONFIGURATION
+# Values: 1: on/true , 0: off/false
 ###############################################################################
 #
 # This script is based on
@@ -45,7 +46,10 @@ declare -r SCRIPT_DIR
 # show some environment data with option -V/--version
 declare -r default_show_env_data=1
 #
-# 1: show use_ values with option -V/--version
+# show Zensical project location with option -V/--version
+declare -r default_show_project_location=1
+#
+# show use_ values with option -V/--version
 declare -r default_show_use_variables=1
 #
 # show URL of buid.bash template file with option -V/--version
@@ -81,14 +85,6 @@ declare -r default_use_zensical_version=0
 if [ -r ${SCRIPT_DIR}/${SCRIPT_NAME}.config ]
 then
     source ${SCRIPT_DIR}/${SCRIPT_NAME}.config
-#
-    if [ "${VERSION}" != "${CONFIG_VERSION}" ]
-    then
-        echo "${SCRIPT_NAME}: wrong version in file ${SCRIPT_NAME}.config"
-        echo "${SCRIPT_NAME}: VERSION        : ${VERSION}"
-        echo "${SCRIPT_NAME}: CONFIG_VERSION : ${CONFIG_VERSION}"
-        exit 1
-    fi
 fi
 #
 ###############################################################################
@@ -96,6 +92,11 @@ fi
 if [ ! -v show_env_data ]
 then
     show_env_data=${default_show_env_data}
+fi
+#
+if [ ! -v show_project_location ]
+then
+    show_project_location=${default_show_project_location}
 fi
 #
 if [ ! -v show_use_variables ]
@@ -131,6 +132,7 @@ fi
 ###############################################################################
 #
 declare -r show_env_data
+declare -r show_project_location
 declare -r show_use_variables
 declare -r show_template_url
 declare -r use_module_markdown_exec
@@ -269,6 +271,12 @@ show_version() {
         echo "Environment:"
         print_environment
     fi
+    if [ ${show_project_location} -eq 1 ]
+    then
+        echo "---"
+        echo "Zensical project base directory:"
+        echo "${SCRIPT_DIR}"
+    fi
     if [ ${show_use_variables} -eq 1 ]
     then
         echo "---"
@@ -293,14 +301,18 @@ create_default_config_file() {
 #
     if [ -r ${SCRIPT_DIR}/${SCRIPT_NAME}.config ]
     then
-        echo "SCRIPT_NAME}: config file already exist: ${SCRIPT_NAME}.config"
+        echo "${SCRIPT_NAME}: config file already exist: ${SCRIPT_NAME}.config"
         exit 1
     fi
 #
     cf="${SCRIPT_DIR}/${SCRIPT_NAME}.config"
-    echo "CONFIG_VERSION=\"${VERSION}\"" >${cf}
+    echo "# Zensical related build.bash configuration file" >${cf}
+    dt=$(date +"%Y-%m-%dT%H:%M:%S%z")
+    echo "# Creation Date : ${dt}" >>${cf}
+    echo "# Built by      : ${VERSION_STRING}" >>${cf}
     echo "#" >>${cf}
     echo "show_env_data=${default_show_env_data}" >>${cf}
+    echo "show_project_location=${default_show_project_location}" >>${cf}
     echo "show_use_variables=${default_show_use_variables}" >>${cf}
     echo "show_template_url=${default_show_template_url}" >>${cf}
     echo "use_module_markdown_exec=${default_use_module_markdown_exec}" >>${cf}
@@ -308,7 +320,9 @@ create_default_config_file() {
     echo "use_module_ghp_import=${default_use_module_ghp_import}" >>${cf}
     echo "use_zensical_version=${default_use_zensical_version}" >>${cf}
     chmod 640 ${cf} ||exit 1
-    echo "SCRIPT_NAME}: config file created: ${SCRIPT_NAME}.config"
+    echo "${SCRIPT_NAME}: config file created: ${SCRIPT_NAME}.config"
+#
+    unset dt
 }
 #
 ###############################################################################
@@ -463,8 +477,6 @@ then
     echo "#!/bin/bash" >${script_file}
     dt=$(date +"%Y-%m-%dT%H:%M:%S.%3N%z")
     echo "# Creation Date : ${dt}" >>${script_file}
-    echo "# Call Location : ${SCRIPT_DIR}" >>${script_file}
-    echo "cd ${SCRIPT_DIR} || exit 1" >>${script_file}
     echo "#" >>${script_file}
     echo "python3 -m venv --prompt venv venv || exit 1" >>${script_file}
     echo "chmod 700 venv || exit 1" >>${script_file}
@@ -535,6 +547,7 @@ then
 #
     echo "exit 0" >>${script_file}
     chmod 700 ${script_file} || exit 1
+    unset dt
 #
     exit 0
 fi

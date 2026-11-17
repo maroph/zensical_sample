@@ -18,14 +18,14 @@ declare -r VERSION_STRING="${SCRIPT_NAME}  ${VERSION}  (${VERSION_DATE})"
 ###############################################################################
 #
 SCRIPT_DIR=`dirname $0`
-cwd=`pwd`
+cwd=$(pwd)
 if [ "${SCRIPT_DIR}" = "." ]
 then
-    SCRIPT_DIR=$cwd
+    SCRIPT_DIR=${cwd}
 else
-    cd ${SCRIPT_DIR}
-    SCRIPT_DIR=`pwd`
-    cd $cwd
+    cd ${SCRIPT_DIR} || exit 1 
+    SCRIPT_DIR=$(pwd)
+    cd ${cwd} || exit 1
 fi
 cwd=
 unset cwd

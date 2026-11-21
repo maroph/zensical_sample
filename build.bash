@@ -12,7 +12,7 @@ declare -r LICENSE="License: CC-BY 4.0 <https://creativecommons.org/licenses/by/
 #
 declare -r SCRIPT_NAME=$(basename $0)
 declare -r VERSION="0.2.0"
-declare -r VERSION_DATE="16-NOV-2026"
+declare -r VERSION_DATE="21-NOV-2026"
 declare -r VERSION_STRING="${SCRIPT_NAME}  ${VERSION}  (${VERSION_DATE})"
 #
 ###############################################################################
@@ -760,6 +760,7 @@ then
         mkdir ./.cache || exit 1
         mkdir ./site || exit 1
     fi
+    # optional add: --external-origin http(s)://host[:port]
     echo "${SCRIPT_NAME}: zensical serve --dev-addr "localhost:${port}" ..."
     zensical serve --dev-addr "localhost:${port}" &
     exit 0

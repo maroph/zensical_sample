@@ -3,7 +3,7 @@ def define_env(env):
     # Variables are accessible as {{ variable }} in templates
     env.variables["author"] = "Manfred Rosenboom"
     env.variables["version"] = "1.0"
-    env.variables["zensical_version"] = "0.1.1"
+    env.variables["zensical_version"] = "0.1.3"
 
     # # Macros are called as {{ greet("World") }}
     # @env.macro
